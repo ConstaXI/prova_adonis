@@ -15,9 +15,21 @@
 
 import Logger from '@ioc:Adonis/Core/Logger'
 import HttpExceptionHandler from '@ioc:Adonis/Core/HttpExceptionHandler'
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class ExceptionHandler extends HttpExceptionHandler {
   constructor() {
     super(Logger)
+  }
+
+  protected statusPages = {
+    '404': 'errors/not-found',
+    '500..599': 'errors/server-error',
+  }
+
+  public async handle(error: any, context: HttpContextContract) {
+    if (error.name === 'E_VALIDATION_FAILURE') {
+      return context.response.status(422).send(error.message)
+    }
   }
 }

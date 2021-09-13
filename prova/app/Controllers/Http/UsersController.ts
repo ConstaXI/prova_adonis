@@ -1,18 +1,19 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
 import User from 'App/Models/User'
+import UserValidator from 'App/Validators/UserValidator'
 
 export default class UsersControlersController {
   public async create({ request, response }: HttpContextContract) {
-    const data = request.body()
-
     try {
-      const user = await User.create({ ...data.user })
+      const data = await request.validate(UserValidator)
+
+      const user = await User.create(data.user)
       await user.related('role').create({ user_type: data.user_type })
 
       return response.status(201).send({ user })
-    } catch (err) {
-      return response.badRequest(err.message)
+    } catch (error) {
+      return response.badRequest(error.messages)
     }
   }
 

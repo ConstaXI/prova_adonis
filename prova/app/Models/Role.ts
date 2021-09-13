@@ -1,17 +1,12 @@
 import { BaseModel, beforeCreate, column } from '@ioc:Adonis/Lucid/Orm'
 import { v4 as uuidv4 } from 'uuid';
 
-enum UserType {
-  player,
-  admin
-}
-
 export default class Role extends BaseModel {
   @column({ isPrimary: true })
   public id: string
 
   @column()
-  public user_type: UserType
+  public user_type: string
 
   @column()
   public user_id: string
