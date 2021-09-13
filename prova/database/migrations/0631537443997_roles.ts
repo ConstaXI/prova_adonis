@@ -5,7 +5,7 @@ export default class Roles extends BaseSchema {
 
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.uuid('id')
+      table.uuid('id').primary()
       table.enum('user_type', ['player', 'admin']).notNullable()
     })
   }

@@ -1,8 +1,9 @@
 import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
-import { column, beforeSave, BaseModel, hasOne, HasOne, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
+import { column, beforeSave, BaseModel, hasOne, HasOne, hasMany, HasMany, beforeCreate } from '@ioc:Adonis/Lucid/Orm'
 import Role from './Role'
 import Bet from './Bet'
+import { v4 as uuidv4 } from 'uuid';
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -40,5 +41,10 @@ export default class User extends BaseModel {
     if (user.$dirty.password) {
       user.password = await Hash.make(user.password)
     }
+  }
+
+  @beforeCreate()
+  public static async geneterateUuid(role: Role) {
+    role.id = uuidv4()
   }
 }
