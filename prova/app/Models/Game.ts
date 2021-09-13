@@ -7,25 +7,25 @@ export default class Game extends BaseModel {
   public id: number
 
   @column()
-  type: string
+  public type: string
 
   @column()
-  description: string
+  public escription: string
 
   @column()
-  range: number
+  public range: number
 
   @column()
-  price: number
+  public price: number
 
   @column()
-  max_number: number
+  public max_number: number
 
   @column()
-  color: string
+  public color: string
 
   @hasMany(() => Bet)
-  bets: HasMany<typeof Bet>
+  public bets: HasMany<typeof Bet>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

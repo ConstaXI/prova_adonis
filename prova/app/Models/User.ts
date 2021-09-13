@@ -33,7 +33,7 @@ export default class User extends BaseModel {
   public role: HasOne<typeof Role>
 
   @hasMany(() => Bet)
-  bets: HasMany<typeof Bet>
+  public bets: HasMany<typeof Bet>
 
   @beforeSave()
   public static async hashPassword(user: User) {

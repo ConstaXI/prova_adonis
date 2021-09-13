@@ -6,10 +6,10 @@ export default class Bet extends BaseModel {
   public id: number
 
   @column()
-  numbers: string
+  public numbers: string
 
   @column()
-  price: string
+  public price: string
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
