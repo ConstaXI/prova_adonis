@@ -13,6 +13,9 @@ export default class Role extends BaseModel {
   @column()
   public user_type: UserType
 
+  @column()
+  public user_id: string
+
   @beforeCreate()
   public static async geneterateUuid(role: Role) {
     role.id = uuidv4()

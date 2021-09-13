@@ -25,3 +25,9 @@ Route.get('/', async () => {
 })
 
 Route.post('/users', 'UsersController.create')
+
+Route.group(() => {
+  Route.get('/users', 'UsersController.index')
+  Route.delete('/users/:id', 'UsersController.delete')
+  Route.put('/users/:id', 'UsersController.update')
+})

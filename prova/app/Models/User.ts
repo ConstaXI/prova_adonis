@@ -30,7 +30,7 @@ export default class User extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @hasOne(() => Role)
+  @hasOne(() => Role, {foreignKey: 'user_id'})
   public role: HasOne<typeof Role>
 
   @hasMany(() => Bet)

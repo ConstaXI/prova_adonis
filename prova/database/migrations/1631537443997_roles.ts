@@ -7,6 +7,7 @@ export default class Roles extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.uuid('id').primary()
       table.enum('user_type', ['player', 'admin']).notNullable()
+      table.uuid('user_id').references('id').inTable('users').onDelete('CASCADE').unique().notNullable()
     })
   }
 

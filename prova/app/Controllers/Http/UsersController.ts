@@ -6,18 +6,43 @@ export default class UsersControlersController {
   public async create({ request, response }: HttpContextContract) {
     const data = request.body()
 
-    const trx = await Database.transaction()
-
     try {
-      const user = await User.create({ ...data.user }, trx)
+      const user = await User.create({ ...data.user })
       await user.related('role').create({ user_type: data.user_type })
-
-      trx.commit()
 
       return response.status(201).send({ user })
     } catch (err) {
-      trx.rollback()
-      return response.badRequest('Algo deu errado')
+      return response.badRequest(err.message)
     }
+  }
+
+  public async index({ request, response }: HttpContextContract) {
+    const page = request.input('page', 1)
+    const limit = request.input('limit', 10)
+
+    const users = await Database.query().from('users').paginate(page, limit)
+
+    return response.status(200).send(users)
+  }
+
+  public async delete({ request, response }: HttpContextContract) {
+    const { id } = request.params()
+
+    const user = await User.findOrFail(id)
+
+    user.delete()
+
+    return response.status(200).send('User deleted')
+  }
+
+  public async update({ request, response }: HttpContextContract) {
+    const { id } = request.params()
+    const data = request.body()
+
+    const user = await User.findOrFail(id)
+
+    await user.merge(data).save()
+
+    return response.status(200).send(user)
   }
 }
