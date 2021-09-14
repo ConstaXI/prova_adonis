@@ -6,7 +6,7 @@ export default class Games extends BaseSchema {
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.uuid('id').primary()
-      table.string('type').notNullable()
+      table.string('type').unique().notNullable()
       table.text('description').notNullable()
       table.integer('range').notNullable()
       table.float('price').notNullable()

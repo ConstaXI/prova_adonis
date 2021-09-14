@@ -9,7 +9,6 @@ import {
   hasMany,
   HasMany,
   beforeCreate,
-  afterSave,
   afterCreate,
 } from '@ioc:Adonis/Lucid/Orm'
 import Role from './Role'
@@ -19,7 +18,7 @@ import Event from '@ioc:Adonis/Core/Event'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id: string
 
   @column()
   public email: string

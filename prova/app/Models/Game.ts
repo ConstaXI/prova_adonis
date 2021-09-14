@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, beforeCreate, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import Bet from './Bet'
+import { v4 as uuidv4 } from 'uuid';
 
 export default class Game extends BaseModel {
   @column({ isPrimary: true })
@@ -10,7 +11,7 @@ export default class Game extends BaseModel {
   public type: string
 
   @column()
-  public escription: string
+  public description: string
 
   @column()
   public range: number
@@ -24,12 +25,14 @@ export default class Game extends BaseModel {
   @column()
   public color: string
 
-  @hasMany(() => Bet)
-  public bets: HasMany<typeof Bet>
-
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @beforeCreate()
+  public static async geneterateUuid(game: Game) {
+    game.id = uuidv4()
+  }
 }

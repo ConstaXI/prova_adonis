@@ -8,7 +8,7 @@ export default class GamesController {
     try {
       const data = await request.validate(GameValidator)
 
-      const game = Game.create(data)
+      const game = await Game.create(data)
 
       return response.status(200).send(game)
     } catch (error) {

@@ -42,3 +42,7 @@ Route.group(() => {
   Route.post('/passwords', 'ForgotPasswordsController.store')
   Route.put('/passwords/:token', 'ForgotPasswordsController.update')
 })
+
+Route.group(() => {
+  Route.post('/bets', 'BetsController.create')
+}).middleware('auth')
