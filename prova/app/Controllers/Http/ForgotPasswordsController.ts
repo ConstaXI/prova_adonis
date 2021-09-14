@@ -11,7 +11,7 @@ export default class ForgotPasswordsController {
       const user = await User.findByOrFail('email', email)
 
       const token = await auth.login(user, {
-        expires_at: DateTime.now().plus({ minutes: 30 })
+        expires_at: DateTime.now().plus({ minutes: 30 }),
       })
 
       user.rememberMeToken = token.tokenHash
@@ -45,7 +45,7 @@ export default class ForgotPasswordsController {
         .select('expires_at')
         .from('api_tokens')
         .where('token', token)
-      
+
       const expires_at = DateTime.fromSQL(tokenModel[0].expires_at)
 
       const isExpired = DateTime.now() > expires_at.plus({ minutes: 30 })

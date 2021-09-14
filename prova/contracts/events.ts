@@ -5,7 +5,7 @@
  * file.
  */
 
-import { DateTime } from "luxon";
+import { DateTime } from 'luxon'
 
 declare module '@ioc:Adonis/Core/Event' {
   /*

@@ -1,7 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Database from '@ioc:Adonis/Lucid/Database';
+import Database from '@ioc:Adonis/Lucid/Database'
 import Game from 'App/Models/Game'
-import GameValidator from '../../Validators/GameValidator';
+import GameValidator from '../../Validators/GameValidator'
 
 export default class GamesController {
   public async create({ request, response }: HttpContextContract) {
