@@ -36,6 +36,9 @@ Route.group(() => {
 
 Route.group(() => {
   Route.post('/games', 'GamesController.create')
+  Route.get('/games', 'GamesController.index')
+  Route.delete('/games/:id', 'GamesController.delete')
+  Route.put('/games', 'GamesController.update')
 }).middleware(['auth', 'isAdmin'])
 
 Route.group(() => {
@@ -45,4 +48,5 @@ Route.group(() => {
 
 Route.group(() => {
   Route.post('/bets', 'BetsController.create')
+  Route.get('/bets', 'BetsController.index')
 }).middleware('auth')
