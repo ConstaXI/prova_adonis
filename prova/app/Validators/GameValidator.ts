@@ -1,7 +1,7 @@
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class UserValidator {
+export default class GameValidator {
   constructor (protected ctx: HttpContextContract) {
   }
 
@@ -25,13 +25,12 @@ export default class UserValidator {
 	 *    ```
 	 */
 	public schema = schema.create({
-		user: schema.object().members({
-			name: schema.string({}, [rules.alpha()]),
-			surname: schema.string({}, [rules.alpha()]),
-			email: schema.string({}, [rules.email()]),
-			password: schema.string({}, [rules.confirmed()])
-		}),
-		user_type: schema.enum(['player', 'administrator'])
+		type: schema.string({}, [rules.alpha()]),
+		description: schema.string({}),
+		range: schema.number(),
+		price: schema.number(),
+		max_number: schema.number(),
+		color: schema.string()
   })
 
 	/**
@@ -45,5 +44,5 @@ export default class UserValidator {
 	 * }
 	 *
 	 */
-	public messages = {}
+  public messages = {}
 }

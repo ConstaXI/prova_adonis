@@ -24,7 +24,7 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 
-Route.post('/users', 'UsersController.create')
+Route.post('/users', 'UsersController.create').middleware('isAdmin')
 
 Route.post('/login', 'AuthController.login')
 
@@ -32,4 +32,8 @@ Route.group(() => {
   Route.get('/users', 'UsersController.index')
   Route.delete('/users/:id', 'UsersController.delete')
   Route.put('/users/:id', 'UsersController.update')
-})
+}).middleware('auth')
+
+Route.group(() => {
+  Route.post('/games', 'GamesController.create')
+}).middleware(['auth', 'isAdmin'])
