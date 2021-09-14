@@ -10,6 +10,7 @@ import {
   HasMany,
   beforeCreate,
   afterSave,
+  afterCreate,
 } from '@ioc:Adonis/Lucid/Orm'
 import Role from './Role'
 import Bet from './Bet'
@@ -33,7 +34,7 @@ export default class User extends BaseModel {
   public password: string
 
   @column()
-  public rememberMeToken?: string
+  public rememberMeToken: string | null
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
@@ -59,7 +60,7 @@ export default class User extends BaseModel {
     user.id = uuidv4()
   }
 
-  @afterSave()
+  @afterCreate()
   public static async onNewUser(user: User) {
     Event.emit('new:user', { email: user.email, name: user.name, created_at: user.createdAt })
   }

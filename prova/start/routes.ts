@@ -37,3 +37,8 @@ Route.group(() => {
 Route.group(() => {
   Route.post('/games', 'GamesController.create')
 }).middleware(['auth', 'isAdmin'])
+
+Route.group(() => {
+  Route.post('/passwords', 'ForgotPasswordsController.store')
+  Route.put('/passwords/:token', 'ForgotPasswordsController.update')
+})
