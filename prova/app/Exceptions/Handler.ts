@@ -31,5 +31,7 @@ export default class ExceptionHandler extends HttpExceptionHandler {
     if (error.name === 'E_VALIDATION_FAILURE') {
       return context.response.status(422).send(error.message)
     }
+
+    return super.handle(error, context)
   }
 }

@@ -5,6 +5,8 @@
  * file.
  */
 
+import { DateTime } from "luxon";
+
 declare module '@ioc:Adonis/Core/Event' {
   /*
   |--------------------------------------------------------------------------
@@ -25,5 +27,11 @@ declare module '@ioc:Adonis/Core/Event' {
   | an instance of the the UserModel only.
   |
   */
-  interface EventsList {}
+  interface EventsList {
+    'new:user': {
+      name: string
+      email: string
+      created_at: DateTime
+    }
+  }
 }

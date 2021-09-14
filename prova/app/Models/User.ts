@@ -1,9 +1,20 @@
 import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
-import { column, beforeSave, BaseModel, hasOne, HasOne, hasMany, HasMany, beforeCreate } from '@ioc:Adonis/Lucid/Orm'
+import {
+  column,
+  beforeSave,
+  BaseModel,
+  hasOne,
+  HasOne,
+  hasMany,
+  HasMany,
+  beforeCreate,
+  afterSave,
+} from '@ioc:Adonis/Lucid/Orm'
 import Role from './Role'
 import Bet from './Bet'
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid'
+import Event from '@ioc:Adonis/Core/Event'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -30,10 +41,10 @@ export default class User extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @hasOne(() => Role, {foreignKey: 'user_id'})
+  @hasOne(() => Role, { foreignKey: 'user_id' })
   public role: HasOne<typeof Role>
 
-  @hasMany(() => Bet)
+  @hasMany(() => Bet, { foreignKey: 'user_id' })
   public bets: HasMany<typeof Bet>
 
   @beforeSave()
@@ -44,7 +55,12 @@ export default class User extends BaseModel {
   }
 
   @beforeCreate()
-  public static async geneterateUuid(role: Role) {
-    role.id = uuidv4()
+  public static async geneterateUuid(user: User) {
+    user.id = uuidv4()
+  }
+
+  @afterSave()
+  public static async onNewUser(user: User) {
+    Event.emit('new:user', { email: user.email, name: user.name, created_at: user.createdAt })
   }
 }

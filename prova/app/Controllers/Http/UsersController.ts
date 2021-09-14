@@ -13,7 +13,7 @@ export default class UsersControlersController {
 
       return response.status(201).send({ user })
     } catch (error) {
-      return response.badRequest(error.messages)
+      return response.badRequest(error.message)
     }
   }
 
