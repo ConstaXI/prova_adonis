@@ -1,8 +1,7 @@
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
-import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class BetValidator {
-  constructor(protected ctx: HttpContextContract) {}
+  constructor(protected numbers_range) {}
 
   /*
    * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
@@ -27,7 +26,13 @@ export default class BetValidator {
 
   public schema = schema.create({
     game_id: schema.string({}, [rules.uuid({ version: '4' })]),
-    numbers: schema.array().members(schema.number()),
+    numbers: schema
+      .array([
+        rules.maxLength(this.numbers_range),
+        rules.minLength(this.numbers_range),
+        rules.range(1, this.numbers_range),
+      ])
+      .members(schema.number()),
   })
 
   /**

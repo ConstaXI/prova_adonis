@@ -7,12 +7,14 @@ import BetValidator from '../../Validators/BetValidator'
 export default class BetsController {
   public async create({ auth, request, response }: HttpContextContract) {
     try {
-      const data = await request.validate(BetValidator)
+      const gameId = request.input('game_id')
 
-      const game = await Game.findOrFail(data.game_id)
+      const game = await Game.findOrFail(gameId)
+
+      const data = await request.validate(new BetValidator(game.range))
 
       data.numbers.forEach((number) => {
-        if (number > game.range) return response.status(400).send('Error message')
+        if (number > game.range) return response.status(400).send('Erro nos números da aposta')
       })
 
       if (data.numbers.length !== new Set(data.numbers).size) {
