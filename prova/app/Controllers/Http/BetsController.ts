@@ -1,3 +1,4 @@
+import Mail from '@ioc:Adonis/Addons/Mail'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Bet from 'App/Models/Bet'
 import Game from 'App/Models/Game'
@@ -23,6 +24,19 @@ export default class BetsController {
       }
 
       const bet = await Bet.create({ ...data, price: game.price, user_id: auth.user?.id })
+
+      await Mail.sendLater((message) => {
+        message
+          .to(auth.user!.email)
+          .from('davi@adonisjs.com', 'Davi Banfi')
+          .subject('Nova aposta')
+          .htmlView('emails/new_bet', {
+            numbers: bet.numbers.toString(),
+            name: auth.user!.name,
+            surname: auth.user!.surname,
+            link: 'https://www.google.com.br',
+          })
+      })
 
       return response.status(200).send(bet)
     } catch (error) {

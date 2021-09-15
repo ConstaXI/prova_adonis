@@ -27,7 +27,7 @@ export default class BetValidator {
 
   public schema = schema.create({
     game_id: schema.string({}, [rules.uuid({ version: '4' })]),
-    numbers: schema.enumSet([])
+    numbers: schema.array().members(schema.number())
   })
 
   /**

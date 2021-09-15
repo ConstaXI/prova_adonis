@@ -9,7 +9,7 @@ export default class Bet extends BaseModel {
   public id: number
 
   @column()
-  public numbers: Set<Number>
+  public numbers: number[]
 
   @column()
   public price: number
