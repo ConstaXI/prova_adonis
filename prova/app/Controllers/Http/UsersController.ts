@@ -31,7 +31,7 @@ export default class UsersControlersController {
 
     const user = await User.findOrFail(id)
 
-    user.delete()
+    await user.delete()
 
     return response.status(200).send('User deleted')
   }

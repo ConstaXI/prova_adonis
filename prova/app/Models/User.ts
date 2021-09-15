@@ -55,12 +55,12 @@ export default class User extends BaseModel {
   }
 
   @beforeCreate()
-  public static async geneterateUuid(user: User) {
+  public static async generateUuid(user: User) {
     user.id = uuidv4()
   }
 
   @afterCreate()
   public static async onNewUser(user: User) {
-    Event.emit('new:user', { email: user.email, name: user.name, created_at: user.createdAt })
+    await Event.emit('new:user', { email: user.email, name: user.name, created_at: user.createdAt })
   }
 }

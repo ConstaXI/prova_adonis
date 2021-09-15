@@ -5,7 +5,8 @@
     "@adonisjs/core/build/commands/index.js",
     "@adonisjs/repl/build/commands",
     "@adonisjs/lucid/build/commands",
-    "@adonisjs/mail/build/commands"
+    "@adonisjs/mail/build/commands",
+    "adonis5-scheduler/build/commands"
   ],
   "exceptionHandlerNamespace": "App/Exceptions/Handler",
   "aliases": {
@@ -19,7 +20,9 @@
     "./start/kernel",
     {
       "file": "./start/events",
-      "environment": ["web"]
+      "environment": [
+        "web"
+      ]
     }
   ],
   "providers": [
@@ -28,9 +31,12 @@
     "@adonisjs/auth",
     "@adonisjs/lucid",
     "@adonisjs/mail",
-    "@adonisjs/view"
+    "@adonisjs/view",
+    "adonis5-scheduler"
   ],
-  "aceProviders": ["@adonisjs/repl"],
+  "aceProviders": [
+    "@adonisjs/repl"
+  ],
   "metaFiles": [
     {
       "pattern": "resources/views/**/*.edge",

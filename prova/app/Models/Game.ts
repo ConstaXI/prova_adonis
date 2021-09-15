@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 export default class Game extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id: string
 
   @column()
   public type: string
@@ -31,7 +31,7 @@ export default class Game extends BaseModel {
   public updatedAt: DateTime
 
   @beforeCreate()
-  public static async geneterateUuid(game: Game) {
+  public static async generateUuid(game: Game) {
     game.id = uuidv4()
   }
 }

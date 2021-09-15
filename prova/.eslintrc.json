@@ -3,6 +3,5 @@
   "plugins": ["prettier"],
   "rules": {
     "prettier/prettier": ["error"]
-  },
-  "eslint.workingDirectories": ["../prova"]
+  }
 }

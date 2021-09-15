@@ -50,14 +50,14 @@ export default class BetsController {
     try {
       const bets = await Bet.query().where('user_id', auth.user!.id)
 
-      const formated_bets = bets.map((bet) => {
+      const formattedBets = bets.map((bet) => {
         return {
           ...bet.$attributes,
           numbers: (bet.numbers = Array.from(bet.numbers).filter(Number)),
         }
       })
 
-      return response.status(200).send(formated_bets)
+      return response.status(200).send(formattedBets)
     } catch (error) {
       return response.badRequest(error.message)
     }

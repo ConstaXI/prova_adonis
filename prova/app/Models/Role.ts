@@ -12,7 +12,7 @@ export default class Role extends BaseModel {
   public user_id: string
 
   @beforeCreate()
-  public static async geneterateUuid(role: Role) {
+  public static async generateUuid(role: Role) {
     role.id = uuidv4()
   }
 }

@@ -17,6 +17,6 @@ export default class AuthController {
   }
 
   public async logout({ auth }: HttpContextContract) {
-    auth.logout()
+    await auth.logout()
   }
 }

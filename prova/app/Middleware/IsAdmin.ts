@@ -2,9 +2,9 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class IsAdmin {
   public async handle({ request, response, auth }: HttpContextContract, next: () => Promise<void>) {
-    const user_type = request.input('user_type')
+    const userType = request.input('user_type')
 
-    if (user_type === 'administrator') {
+    if (userType === 'administrator') {
       if (await auth.use().check()) {
         await auth.user?.load('role')
 

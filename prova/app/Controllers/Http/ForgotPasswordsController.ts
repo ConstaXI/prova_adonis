@@ -16,7 +16,7 @@ export default class ForgotPasswordsController {
 
       user.rememberMeToken = token.tokenHash
 
-      user.save()
+      await user.save()
 
       await Mail.sendLater((message) => {
         message
@@ -46,9 +46,9 @@ export default class ForgotPasswordsController {
         .from('api_tokens')
         .where('token', token)
 
-      const expires_at = DateTime.fromSQL(tokenModel[0].expires_at)
+      const expiresAt = DateTime.fromSQL(tokenModel[0].expires_at)
 
-      const isExpired = DateTime.now() > expires_at.plus({ minutes: 30 })
+      const isExpired = DateTime.now() > expiresAt.plus({ minutes: 30 })
 
       if (isExpired) {
         return response.status(401).send({ error: 'Token expirado' })
@@ -57,7 +57,7 @@ export default class ForgotPasswordsController {
       user.rememberMeToken = null
       user.password = password
 
-      auth.logout()
+      await auth.logout()
 
       await user.save()
     } catch (error) {

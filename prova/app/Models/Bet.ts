@@ -6,7 +6,7 @@ import User from './User'
 
 export default class Bet extends BaseModel {
   @column({ isPrimary: true })
-  public id: number
+  public id: string
 
   @column()
   public numbers: number[]
@@ -27,13 +27,13 @@ export default class Bet extends BaseModel {
   public updatedAt: DateTime
 
   @hasOne(() => Game)
-  game: HasOne<typeof Game>
+  public game: HasOne<typeof Game>
 
   @hasOne(() => User)
-  user: HasOne<typeof User>
+  public user: HasOne<typeof User>
 
   @beforeCreate()
-  public static async geneterateUuid(bet: Bet) {
+  public static async generateUuid(bet: Bet) {
     bet.id = uuidv4()
   }
 }

@@ -30,7 +30,7 @@ export default class GamesController {
 
     const game = await Game.findOrFail(id)
 
-    game.delete()
+    await game.delete()
 
     return response.status(200).send('Game deleted')
   }
