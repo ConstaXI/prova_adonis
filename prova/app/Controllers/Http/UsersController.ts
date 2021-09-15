@@ -3,7 +3,7 @@ import Database from '@ioc:Adonis/Lucid/Database'
 import User from 'App/Models/User'
 import UserValidator from 'App/Validators/UserValidator'
 
-export default class UsersControlersController {
+export default class UsersController {
   public async create({ request, response }: HttpContextContract) {
     try {
       const data = await request.validate(UserValidator)

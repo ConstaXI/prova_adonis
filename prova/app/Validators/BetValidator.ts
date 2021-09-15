@@ -22,17 +22,12 @@ export default class BetValidator {
    *     ])
    *    ```
    */
-  // todo: Preciso entrar uma maneira de impedir o usuário de colocar números além do range
 
   public schema = schema.create({
     game_id: schema.string({}, [rules.uuid({ version: '4' })]),
     numbers: schema
-      .array([
-        rules.maxLength(this.numbers_range),
-        rules.minLength(this.numbers_range),
-        rules.range(1, this.numbers_range),
-      ])
-      .members(schema.number()),
+      .array([rules.maxLength(this.numbers_range)])
+      .members(schema.number([rules.range(1, this.numbers_range)])),
   })
 
   /**
