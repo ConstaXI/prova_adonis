@@ -20,7 +20,7 @@ export default class GamesController {
     const page = request.input('page', 1)
     const limit = request.input('limit', 10)
 
-    const games = await Database.query().from('users').paginate(page, limit)
+    const games = await Database.query().from('games').paginate(page, limit)
 
     return response.status(200).send(games)
   }

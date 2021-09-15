@@ -27,6 +27,7 @@ Route.get('/', async () => {
 Route.post('/users', 'UsersController.create').middleware('isAdmin')
 
 Route.post('/login', 'AuthController.login')
+Route.delete('/logout', 'AuthController.logout').middleware('auth')
 
 Route.group(() => {
   Route.get('/users', 'UsersController.index')
