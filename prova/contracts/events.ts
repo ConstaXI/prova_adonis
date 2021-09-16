@@ -33,5 +33,12 @@ declare module '@ioc:Adonis/Core/Event' {
       email: string
       created_at: DateTime
     }
+
+    'new:bet': {
+      name: string
+      surname: string
+      numbers: number[]
+      email: string
+    }
   }
 }

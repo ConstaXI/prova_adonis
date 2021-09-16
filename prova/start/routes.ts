@@ -39,7 +39,7 @@ Route.group(() => {
   Route.post('/games', 'GamesController.create')
   Route.get('/games', 'GamesController.index')
   Route.delete('/games/:id', 'GamesController.delete')
-  Route.put('/games', 'GamesController.update')
+  Route.put('/games/:id', 'GamesController.update')
 }).middleware(['auth', 'isAdmin'])
 
 Route.group(() => {

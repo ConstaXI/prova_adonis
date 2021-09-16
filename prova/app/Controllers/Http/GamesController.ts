@@ -1,18 +1,19 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
 import Game from 'App/Models/Game'
-import GameValidator from '../../Validators/GameValidator'
+import CreateGameValidator from 'App/Validators/CreateGameValidator'
+import UpdateGameValidator from 'App/Validators/UpdateGameValidator'
 
 export default class GamesController {
   public async create({ request, response }: HttpContextContract) {
     try {
-      const data = await request.validate(GameValidator)
+      const data = await request.validate(CreateGameValidator)
 
       const game = await Game.create(data)
 
       return response.status(200).send(game)
     } catch (error) {
-      return response.badRequest(error.message)
+      return response.badRequest(error.messages)
     }
   }
 
@@ -36,13 +37,17 @@ export default class GamesController {
   }
 
   public async update({ request, response }: HttpContextContract) {
-    const { id } = request.params()
-    const data = request.body()
+    try {
+      const { id } = request.params()
+      const data = await request.validate(UpdateGameValidator)
 
-    const game = await Game.findOrFail(id)
+      const game = await Game.findOrFail(id)
 
-    await game.merge(data).save()
+      await game.merge(data).save()
 
-    return response.status(200).send(game)
+      return response.status(200).send(game)
+    } catch (error) {
+      return response.badRequest(error.messages)
+    }
   }
 }

@@ -1,7 +1,7 @@
-import { schema } from '@ioc:Adonis/Core/Validator'
+import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class GameValidator {
+export default class CreateUserValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   /*
@@ -24,12 +24,13 @@ export default class GameValidator {
    *    ```
    */
   public schema = schema.create({
-    type: schema.string(),
-    description: schema.string(),
-    range: schema.number(),
-    price: schema.number(),
-    max_number: schema.number(),
-    color: schema.string(),
+    user: schema.object().members({
+      name: schema.string({}, [rules.alpha()]),
+      surname: schema.string({}, [rules.alpha()]),
+      email: schema.string({}, [rules.email()]),
+      password: schema.string({}, [rules.confirmed()]),
+    }),
+    user_type: schema.enum(['player', 'administrator']),
   })
 
   /**
@@ -43,5 +44,8 @@ export default class GameValidator {
    * }
    *
    */
-  public messages = {}
+  public messages = {
+    'required': 'O {{field}} é necessário para criar uma nova conta',
+    'user.password.confirmed': 'As senhas não coincidem',
+  }
 }

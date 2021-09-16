@@ -20,9 +20,7 @@
     "./start/kernel",
     {
       "file": "./start/events",
-      "environment": [
-        "web"
-      ]
+      "environment": ["web"]
     }
   ],
   "providers": [
@@ -34,9 +32,7 @@
     "@adonisjs/view",
     "adonis5-scheduler"
   ],
-  "aceProviders": [
-    "@adonisjs/repl"
-  ],
+  "aceProviders": ["@adonisjs/repl"],
   "metaFiles": [
     {
       "pattern": "resources/views/**/*.edge",
