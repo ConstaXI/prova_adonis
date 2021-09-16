@@ -23,7 +23,7 @@ declare module '@ioc:Adonis/Addons/Auth' {
   interface ProvidersList {
     /*
     |--------------------------------------------------------------------------
-    | User Provider
+    | UserListener Provider
     |--------------------------------------------------------------------------
     |
     | The following provider uses Lucid models as a driver for fetching user

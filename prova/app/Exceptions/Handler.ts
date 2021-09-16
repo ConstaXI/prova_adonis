@@ -24,12 +24,12 @@ export default class ExceptionHandler extends HttpExceptionHandler {
 
   protected statusPages = {
     '404': 'errors/not-found',
-    '500...599': 'errors/server-error',
+    '500..599': 'errors/server-error',
   }
 
   public async handle(error: any, context: HttpContextContract) {
     if (error.name === 'E_VALIDATION_FAILURE') {
-      return context.response.status(422).send(error.message)
+      return context.response.status(422).send(error.messages)
     }
 
     return super.handle(error, context)

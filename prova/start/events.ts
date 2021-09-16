@@ -10,5 +10,5 @@
 
 import Event from '@ioc:Adonis/Core/Event'
 
-Event.on('new:user', 'User.onNewUser')
-Event.on('new:bet', 'Bet.onNewBet')
+Event.on('new:user', 'UserListener.onNewUser')
+Event.on('new:bet', 'BetListener.onNewBet')

@@ -21,7 +21,7 @@ export default class UsersController {
 
       return response.status(201).send({ user })
     } catch (error) {
-      return response.badRequest(error.messages)
+      return response.badRequest(error.message)
     }
   }
 
@@ -41,7 +41,7 @@ export default class UsersController {
 
     await user.delete()
 
-    return response.status(200).send('User deleted')
+    return response.status(200).send('UserListener deleted')
   }
 
   public async update({ request, response }: HttpContextContract) {
@@ -55,7 +55,7 @@ export default class UsersController {
 
       return response.status(200).send(user)
     } catch (error) {
-      return response.badRequest(error.messages)
+      return response.badRequest(error.message)
     }
   }
 }

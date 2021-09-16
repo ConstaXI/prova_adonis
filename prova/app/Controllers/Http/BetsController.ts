@@ -36,7 +36,7 @@ export default class BetsController {
 
       return response.status(200).send(bet)
     } catch (error) {
-      return response.badRequest(error.messages)
+      return response.badRequest(error.message)
     }
   }
 
