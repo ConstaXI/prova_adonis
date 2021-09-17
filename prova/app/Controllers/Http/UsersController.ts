@@ -7,22 +7,18 @@ import UpdateUserValidator from 'App/Validators/UpdateUserValidator'
 
 export default class UsersController {
   public async create({ request, response }: HttpContextContract) {
-    try {
-      const data = await request.validate(CreateUserValidator)
+    const data = await request.validate(CreateUserValidator)
 
-      const user = await User.create(data.user)
-      await user.related('role').create({ user_type: data.user_type })
+    const user = await User.create(data.user)
+    await user.related('role').create({ user_type: data.user_type })
 
-      await Event.emit('new:user', {
-        email: user.email,
-        name: user.name,
-        created_at: user.createdAt,
-      })
+    await Event.emit('new:user', {
+      email: user.email,
+      name: user.name,
+      created_at: user.createdAt,
+    })
 
-      return response.status(201).send(user)
-    } catch (error) {
-      return response.badRequest(error.messages ? error.messages : error.message)
-    }
+    return response.status(201).send(user)
   }
 
   public async index({ request, response }: HttpContextContract) {
@@ -35,26 +31,20 @@ export default class UsersController {
   }
 
   public async delete({ auth, response }: HttpContextContract) {
-    if (!auth.user) {
-      return response.badRequest('Você não está logado')
-    }
+    await auth.authenticate()
 
-    auth.user.delete()
+    await auth.user!.delete()
+
+    return response.status(200).send('Conta deletada.')
   }
 
   public async update({ auth, request, response }: HttpContextContract) {
-    try {
-      if (!auth.user) {
-        return response.badRequest('Você não está logado')
-      }
+    await auth.authenticate()
 
-      const data = await request.validate(UpdateUserValidator)
+    const data = await request.validate(UpdateUserValidator)
 
-      await auth.user.merge(data).save()
+    await auth.user!.merge(data).save()
 
-      return response.status(200).send(auth.user)
-    } catch (error) {
-      return response.badRequest(error.messages ? error.messages : error.message)
-    }
+    return response.status(200).send(auth.user)
   }
 }

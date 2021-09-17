@@ -6,59 +6,48 @@ import Event from '@ioc:Adonis/Core/Event'
 
 export default class BetsController {
   public async create({ auth, request, response }: HttpContextContract) {
-    try {
-      const gameId = request.input('game_id')
+    const gameId = request.input('game_id')
 
-      const game = await Game.findOrFail(gameId)
+    const game = await Game.findOrFail(gameId)
 
-      const data = await request.validate(new BetValidator(game.range, game.max_number))
+    const data = await request.validate(new BetValidator(game.range, game.max_number))
 
-      if (data.numbers.length !== new Set(data.numbers).size)
-        return response.badRequest('Existem números repetidos na sua aposta.')
+    // todo: tratamento de erros dentro do controller, o certo seria levantar uma exception para ser tratada no handler
+    if (data.numbers.length !== new Set(data.numbers).size)
+      return response.badRequest('Existem números repetidos na sua aposta.')
 
-      const bet = await Bet.create({ ...data, price: game.price, user_id: auth.user!.id })
+    const bet = await Bet.create({ ...data, price: game.price, user_id: auth.user!.id })
 
-      await Event.emit('new:bet', {
-        name: auth.user!.name,
-        surname: auth.user!.surname,
-        numbers: data.numbers,
-        email: auth.user!.email,
-      })
+    await Event.emit('new:bet', {
+      name: auth.user!.name,
+      surname: auth.user!.surname,
+      numbers: data.numbers,
+      email: auth.user!.email,
+    })
 
-      return response.status(201).send(bet)
-    } catch (error) {
-      return response.badRequest(error.messages ? error.messages : error.message)
-    }
+    return response.status(201).send(bet)
   }
 
   public async index({ auth, response }: HttpContextContract) {
-    try {
-      const bets = await Bet.query().where('user_id', auth.user!.id)
+    const bets = await Bet.query().where('user_id', auth.user!.id)
 
-      const formattedBets = bets.map((bet) => {
-        return {
-          ...bet.$attributes,
-          numbers: Array.from(bet.numbers).filter(Number),
-        }
-      })
+    const formattedBets = bets.map((bet) => {
+      return {
+        ...bet.$attributes,
+        numbers: Array.from(bet.numbers).filter(Number),
+      }
+    })
 
-      return response.status(200).send(formattedBets)
-    } catch (error) {
-      return response.badRequest(error.message)
-    }
+    return response.status(200).send(formattedBets)
   }
 
   public async delete({ request, response }) {
-    try {
-      const { id } = request.params()
+    const { id } = request.params()
 
-      const bet = await Bet.findOrFail(id)
+    const bet = await Bet.findOrFail(id)
 
-      await bet.delete()
+    await bet.delete()
 
-      return response.status(200).send('A aposta foi deletada com sucesso.')
-    } catch (error) {
-      return response.badRequest(error.message)
-    }
+    return response.status(200).send('A aposta foi deletada com sucesso.')
   }
 }

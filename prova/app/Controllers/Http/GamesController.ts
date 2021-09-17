@@ -6,15 +6,11 @@ import UpdateGameValidator from 'App/Validators/UpdateGameValidator'
 
 export default class GamesController {
   public async create({ request, response }: HttpContextContract) {
-    try {
-      const data = await request.validate(CreateGameValidator)
+    const data = await request.validate(CreateGameValidator)
 
-      const game = await Game.create(data)
+    const game = await Game.create(data)
 
-      return response.status(200).send(game)
-    } catch (error) {
-      return response.badRequest(error.messages ? error.messages : error.message)
-    }
+    return response.status(200).send(game)
   }
 
   public async index({ request, response }: HttpContextContract) {
@@ -37,17 +33,13 @@ export default class GamesController {
   }
 
   public async update({ request, response }: HttpContextContract) {
-    try {
-      const { id } = request.params()
-      const data = await request.validate(UpdateGameValidator)
+    const { id } = request.params()
+    const data = await request.validate(UpdateGameValidator)
 
-      const game = await Game.findOrFail(id)
+    const game = await Game.findOrFail(id)
 
-      await game.merge(data).save()
+    await game.merge(data).save()
 
-      return response.status(200).send(game)
-    } catch (error) {
-      return response.badRequest(error.messages ? error.messages : error.message)
-    }
+    return response.status(200).send(game)
   }
 }
