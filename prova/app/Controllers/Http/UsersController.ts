@@ -19,9 +19,9 @@ export default class UsersController {
         created_at: user.createdAt,
       })
 
-      return response.status(201).send({ user })
+      return response.status(201).send(user)
     } catch (error) {
-      return response.badRequest(error.message)
+      return response.badRequest(error.message ? error.message : error.messages)
     }
   }
 
@@ -42,18 +42,19 @@ export default class UsersController {
     auth.user.delete()
   }
 
-  public async update({ request, response }: HttpContextContract) {
+  public async update({ auth, request, response }: HttpContextContract) {
     try {
-      const { id } = request.params()
+      if (!auth.user) {
+        return response.badRequest('Você não está logado')
+      }
+
       const data = await request.validate(UpdateUserValidator)
 
-      const user = await User.findOrFail(id)
+      await auth.user.merge(data).save()
 
-      await user.merge(data).save()
-
-      return response.status(200).send(user)
+      return response.status(200).send(auth.user)
     } catch (error) {
-      return response.badRequest(error.message)
+      return response.badRequest(error.message ? error.message : error.messages)
     }
   }
 }

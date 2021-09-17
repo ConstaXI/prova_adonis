@@ -10,6 +10,7 @@ export default class IsAdmin {
 
         if (auth.user?.role.user_type === 'administrator') {
           await next()
+          return
         }
 
         return response.badRequest('Você não é administrador >:(')

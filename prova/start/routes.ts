@@ -32,7 +32,7 @@ Route.delete('/logout', 'AuthController.logout').middleware('auth')
 Route.group(() => {
   Route.get('/users', 'UsersController.index')
   Route.delete('/users', 'UsersController.delete')
-  Route.put('/users/:id', 'UsersController.update')
+  Route.put('/users', 'UsersController.update')
 }).middleware('auth')
 
 Route.group(() => {

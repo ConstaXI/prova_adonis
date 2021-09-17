@@ -4,7 +4,7 @@ services:
 
   nodejs:
     container_name: nodejs
-    build: '.'
+    build: .
     volumes:
       - .:/home/node/api
       - /home/node/api/node_modules
@@ -29,6 +29,8 @@ services:
       - app-connect
     ports:
       - '5432:5432'
+    expose:
+      - '5432'
 
 volumes:
   postgres-data:

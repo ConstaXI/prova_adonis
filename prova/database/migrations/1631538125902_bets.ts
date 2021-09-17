@@ -6,7 +6,8 @@ export default class Bets extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.uuid('id').primary()
-      table.string('numbers').unique().notNullable()
+      table.string('numbers').notNullable()
+      table.unique(['user_id', 'numbers'])
       table.float('price').notNullable()
       table.uuid('user_id').references('id').inTable('users').onDelete('CASCADE').notNullable()
       table.uuid('game_id').references('id').inTable('games').onDelete('CASCADE').notNullable()

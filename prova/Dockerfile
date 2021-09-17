@@ -8,8 +8,6 @@ COPY package.json yarn.* ./
 
 USER node
 
-RUN yarn
-
 COPY --chown=node:node . .
 
 EXPOSE 3333
