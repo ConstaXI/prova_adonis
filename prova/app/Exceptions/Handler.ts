@@ -29,7 +29,7 @@ export default class ExceptionHandler extends HttpExceptionHandler {
 
   public async handle(error: any, context: HttpContextContract) {
     if (error.name === 'E_VALIDATION_FAILURE') {
-      return context.response.status(422).send(error.messages)
+      return context.response.status(error.status).send(error.messages)
     }
 
     return super.handle(error, context)

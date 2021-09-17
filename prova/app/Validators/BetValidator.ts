@@ -1,7 +1,7 @@
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 
 export default class BetValidator {
-  constructor(protected numbers_range) {}
+  constructor(protected numbers_range, protected max_number) {}
 
   /*
    * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
@@ -26,7 +26,7 @@ export default class BetValidator {
   public schema = schema.create({
     game_id: schema.string({}, [rules.uuid({ version: '4' })]),
     numbers: schema
-      .array([rules.maxLength(this.numbers_range)])
+      .array([rules.maxLength(this.max_number), rules.minLength(this.max_number)])
       .members(schema.number([rules.range(1, this.numbers_range)])),
   })
 

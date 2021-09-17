@@ -21,7 +21,7 @@ export default class UsersController {
 
       return response.status(201).send(user)
     } catch (error) {
-      return response.badRequest(error.message ? error.message : error.messages)
+      return response.badRequest(error.messages ? error.messages : error.message)
     }
   }
 
@@ -54,7 +54,7 @@ export default class UsersController {
 
       return response.status(200).send(auth.user)
     } catch (error) {
-      return response.badRequest(error.message ? error.message : error.messages)
+      return response.badRequest(error.messages ? error.messages : error.message)
     }
   }
 }

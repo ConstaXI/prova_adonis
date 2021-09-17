@@ -11,21 +11,12 @@ export default class BetsController {
 
       const game = await Game.findOrFail(gameId)
 
-      const data = await request.validate(new BetValidator(game.range))
+      const data = await request.validate(new BetValidator(game.range, game.max_number))
 
-      data.numbers.forEach((number) => {
-        if (number > game.range) return response.status(400).send('Erro nos números da aposta')
-      })
-
-      if (data.numbers.length !== new Set(data.numbers).size) {
+      if (data.numbers.length !== new Set(data.numbers).size)
         return response.badRequest('Existem números repetidos na sua aposta.')
-      }
 
-      if (data.numbers.length !== game.max_number) {
-        return response.badRequest('A quantidade de números apostados não está correta')
-      }
-
-      const bet = await Bet.create({ ...data, price: game.price, user_id: auth.user?.id })
+      const bet = await Bet.create({ ...data, price: game.price, user_id: auth.user!.id })
 
       await Event.emit('new:bet', {
         name: auth.user!.name,
@@ -34,9 +25,9 @@ export default class BetsController {
         email: auth.user!.email,
       })
 
-      return response.status(200).send(bet)
+      return response.status(201).send(bet)
     } catch (error) {
-      return response.badRequest(error.message)
+      return response.badRequest(error.messages ? error.messages : error.message)
     }
   }
 
@@ -47,7 +38,7 @@ export default class BetsController {
       const formattedBets = bets.map((bet) => {
         return {
           ...bet.$attributes,
-          numbers: (bet.numbers = Array.from(bet.numbers).filter(Number)),
+          numbers: Array.from(bet.numbers).filter(Number),
         }
       })
 

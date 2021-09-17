@@ -51,7 +51,7 @@ export default class ForgotPasswordsController {
       const isExpired = DateTime.now() > expiresAt.plus({ minutes: 30 })
 
       if (isExpired) {
-        return response.status(401).send({ error: 'Token expirado' })
+        return response.badRequest('Token expirado')
       }
 
       user.rememberMeToken = null

@@ -44,8 +44,5 @@ export default class CreateUserValidator {
    * }
    *
    */
-  public messages = {
-    'required': 'O {{field}} é necessário para criar uma nova conta',
-    'user.password.confirmed': 'As senhas não coincidem',
-  }
+  public messages = {}
 }

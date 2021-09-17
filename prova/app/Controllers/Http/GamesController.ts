@@ -13,7 +13,7 @@ export default class GamesController {
 
       return response.status(200).send(game)
     } catch (error) {
-      return response.badRequest(error.message)
+      return response.badRequest(error.messages ? error.messages : error.message)
     }
   }
 
@@ -47,7 +47,7 @@ export default class GamesController {
 
       return response.status(200).send(game)
     } catch (error) {
-      return response.badRequest(error.message)
+      return response.badRequest(error.messages ? error.messages : error.message)
     }
   }
 }
