@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "node ace serve --watch",
+    "dev": "concurrently \"node ace serve --watch\" \"node ace scheduler:run\"",
     "build": "node ace build --production",
     "start": "node server.js",
     "lint": "eslint . --ext=.ts",
@@ -31,6 +31,7 @@
     "@adonisjs/repl": "^3.1.0",
     "@adonisjs/view": "^6.1.1",
     "adonis5-scheduler": "^2.0.2",
+    "concurrently": "^6.2.1",
     "luxon": "^2.0.2",
     "pg": "^8.7.1",
     "phc-argon2": "^1.1.2",

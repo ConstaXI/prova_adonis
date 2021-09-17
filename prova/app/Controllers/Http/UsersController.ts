@@ -34,14 +34,12 @@ export default class UsersController {
     return response.status(200).send(users)
   }
 
-  public async delete({ request, response }: HttpContextContract) {
-    const { id } = request.params()
+  public async delete({ auth, response }: HttpContextContract) {
+    if (!auth.user) {
+      return response.badRequest('Você não está logado')
+    }
 
-    const user = await User.findOrFail(id)
-
-    await user.delete()
-
-    return response.status(200).send('UserListener deleted')
+    auth.user.delete()
   }
 
   public async update({ request, response }: HttpContextContract) {
