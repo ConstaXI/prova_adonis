@@ -1,6 +1,7 @@
 import test from 'japa'
 import supertest from 'supertest'
 import Database from '@ioc:Adonis/Lucid/Database'
+import Game from 'App/Models/Game'
 
 const BASE_URL = `http://${process.env.HOST}:${process.env.PORT}`
 
@@ -27,7 +28,7 @@ test.group('Games', () => {
 
     const loginResponse = await supertest(BASE_URL)
       .post('/login')
-      .send({ email: 'davi@email.com', password: '123456' })
+      .send({ email: 'admin@email.com', password: '123456' })
 
     await supertest(BASE_URL)
       .post('/games')
@@ -42,5 +43,48 @@ test.group('Games', () => {
         color: '01AC66',
       })
       .expect(201)
+  })
+
+  test('Ensure games can be updated', async (assert) => {
+    const loginResponse = await supertest(BASE_URL)
+      .post('/login')
+      .send({ email: 'admin@email.com', password: '123456' })
+
+    const game = await Game.firstOrNew({ type: 'Mega Sena' })
+
+    const response = await supertest(BASE_URL)
+      .put(`/games/${game.id}`)
+      .set('Authorization', `Bearer ${loginResponse.body.token.token}`)
+      .send({
+        type: 'Mega Sena Modificado',
+      })
+      .expect(200)
+
+    assert.equal(response.body.type, 'Mega Sena Modificado')
+  })
+
+  test('Ensure admin can list games', async (assert) => {
+    const loginResponse = await supertest(BASE_URL)
+      .post('/login')
+      .send({ email: 'admin@email.com', password: '123456' })
+
+    const response = await supertest(BASE_URL)
+      .get('/games')
+      .set('Authorization', `Bearer ${loginResponse.body.token.token}`)
+
+    assert.isAbove(response.body.data.length, 0)
+  })
+
+  test('Ensure admin can delete a game', async () => {
+    const loginResponse = await supertest(BASE_URL)
+      .post('/login')
+      .send({ email: 'admin@email.com', password: '123456' })
+
+    const game = await Game.firstOrNew({ type: 'Mega Sena Modificado' })
+
+    await supertest(BASE_URL)
+      .delete(`/games/${game.id}`)
+      .set('Authorization', `Bearer ${loginResponse.body.token.token}`)
+      .expect(200)
   })
 })

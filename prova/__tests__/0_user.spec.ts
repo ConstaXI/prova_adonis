@@ -30,6 +30,6 @@ test.group('Sessions', () => {
       .send({ email: 'davi@email.com', password: '123456' })
       .expect(200)
 
-    assert.exists(response.body.token)
+    assert.property(response.body.token, 'token')
   })
 })
