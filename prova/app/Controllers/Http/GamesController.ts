@@ -10,7 +10,7 @@ export default class GamesController {
 
     const game = await Game.create(data)
 
-    return response.status(200).send(game)
+    return response.status(201).send(game)
   }
 
   public async index({ request, response }: HttpContextContract) {
