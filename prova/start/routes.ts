@@ -50,4 +50,5 @@ Route.group(() => {
 Route.group(() => {
   Route.post('/bets', 'BetsController.create')
   Route.get('/bets', 'BetsController.index')
+  Route.delete('/bets/:id', 'BetsController.delete')
 }).middleware('auth')

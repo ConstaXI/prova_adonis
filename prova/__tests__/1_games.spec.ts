@@ -64,6 +64,29 @@ test.group('Games', () => {
     assert.isAbove(response.body.data.length, 0)
   })
 
+  test('Ensure that user can bet', async (assert) => {
+    const game = await Game.firstOrFail()
+
+    const loginResponse = await supertest(BASE_URL)
+      .post('/login')
+      .send({ email: 'admin@email.com', password: '123456' })
+
+    const numbers = Array.from({ length: game.max_number }, () =>
+      Math.floor(Math.random() * game.range)
+    )
+
+    const response = await supertest(BASE_URL)
+      .post('/bets')
+      .set('Authorization', `Bearer ${loginResponse.body.token.token}`)
+      .send({
+        game_id: game.id,
+        numbers: numbers,
+      })
+      .expect(201)
+
+    assert.lengthOf(response.body.numbers, game.max_number)
+  })
+
   test('Ensure admin can delete a game', async () => {
     const loginResponse = await supertest(BASE_URL)
       .post('/login')
