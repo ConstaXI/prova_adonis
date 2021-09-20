@@ -1,17 +1,15 @@
 import test from 'japa'
-import supertest from 'supertest'
-import { JSDOM } from 'jsdom'
-
-const BASE_URL = `http://${process.env.HOST}:${process.env.PORT}`
+import User from 'App/Models/User'
 
 test.group('Welcome', () => {
-  test('Ensure home page works', async (assert) => {
-    const { text } = await supertest(BASE_URL).get('/').expect(200)
+  test('ensure user password gets hashed during save', async (assert) => {
+    const user = new User()
+    user.name = 'Davi'
+    user.surname = 'Banfi'
+    user.email = 'davi@email.com'
+    user.password = '123456'
+    await user.save()
 
-    const { document } = new JSDOM(text).window
-
-    const title = document.querySelector('.title')
-    assert.exists(title)
-    assert.equal(title!.textContent!.trim(), 'It works!')
+    assert.notEqual(user.password, '123456')
   })
 })
