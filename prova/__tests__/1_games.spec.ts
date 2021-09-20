@@ -2,28 +2,17 @@ import test from 'japa'
 import supertest from 'supertest'
 import Database from '@ioc:Adonis/Lucid/Database'
 import Game from 'App/Models/Game'
+import User from 'App/Models/User'
 
 const BASE_URL = `http://${process.env.HOST}:${process.env.PORT}`
 
 test.group('Games', () => {
   test('Ensure only an admin can create a game', async () => {
-    const userResponse = await supertest(BASE_URL)
-      .post('/users')
-      .send({
-        user: {
-          name: 'Davi',
-          surname: 'Banfi',
-          email: 'admin@email.com',
-          password: '123456',
-          password_confirmation: '123456',
-        },
-        user_type: 'player',
-      })
-      .expect(201)
+    const user = await User.firstOrFail()
 
     await Database.query()
       .from('roles')
-      .where('user_id', userResponse.body.id)
+      .where('user_id', user.id)
       .update({ user_type: 'administrator' })
 
     const loginResponse = await supertest(BASE_URL)
@@ -50,7 +39,7 @@ test.group('Games', () => {
       .post('/login')
       .send({ email: 'admin@email.com', password: '123456' })
 
-    const game = await Game.firstOrNew({ type: 'Mega Sena' })
+    const game = await Game.firstOrFail()
 
     const response = await supertest(BASE_URL)
       .put(`/games/${game.id}`)
@@ -80,7 +69,7 @@ test.group('Games', () => {
       .post('/login')
       .send({ email: 'admin@email.com', password: '123456' })
 
-    const game = await Game.firstOrNew({ type: 'Mega Sena Modificado' })
+    const game = await Game.firstOrFail()
 
     await supertest(BASE_URL)
       .delete(`/games/${game.id}`)
