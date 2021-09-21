@@ -12,9 +12,9 @@ export default class BetsController {
 
     const data = await request.validate(new BetValidator(game.range, game.max_number))
 
-    // todo: tratamento de erros dentro do controller, o certo seria levantar uma exception para ser tratada no handler
+    // todo: custom rule in BetValidator
     if (data.numbers.length !== new Set(data.numbers).size)
-      return response.badRequest('Existem números repetidos na sua aposta.')
+      return response.status(422).send('Existem números repetidos na sua aposta.')
 
     const bet = await Bet.create({ ...data, price: game.price, user_id: auth.user!.id })
 
