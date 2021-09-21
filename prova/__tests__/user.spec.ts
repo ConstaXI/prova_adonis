@@ -1,7 +1,20 @@
 import test from 'japa'
 import request from 'Database/factories/request'
+import execa from 'execa'
 
-test.group('User', () => {
+test.group('User', (group) => {
+  group.before(async () => {
+    await execa.node('ace', ['migration:run'], {
+      stdio: 'inherit',
+    })
+  })
+
+  group.after(async () => {
+    await execa.node('ace', ['migration:rollback'], {
+      stdio: 'inherit',
+    })
+  })
+
   test('Ensure password will be hashed', async (assert) => {
     const response = await request
       .post('/users')

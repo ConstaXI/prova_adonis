@@ -2,8 +2,21 @@ import test from 'japa'
 import { loggedUser } from 'Database/factories/UserFactory'
 import request from 'Database/factories/request'
 import { GameFactory } from 'Database/factories/GameFactory'
+import execa from 'execa'
 
-test.group('Games', async () => {
+test.group('Games', async (group) => {
+  group.before(async () => {
+    await execa.node('ace', ['migration:run'], {
+      stdio: 'inherit',
+    })
+  })
+
+  group.after(async () => {
+    await execa.node('ace', ['migration:rollback'], {
+      stdio: 'inherit',
+    })
+  })
+
   const token = await loggedUser({ user_type: 'administrator' })
 
   test('Ensure game cannot be created by player', async () => {

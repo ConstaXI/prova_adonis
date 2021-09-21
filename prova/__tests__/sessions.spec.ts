@@ -1,8 +1,21 @@
 import test from 'japa'
 import { loggedUser } from 'Database/factories/UserFactory'
 import request from 'Database/factories/request'
+import execa from 'execa'
 
-test.group('Authentication', () => {
+test.group('Authentication', (group) => {
+  group.before(async () => {
+    await execa.node('ace', ['migration:run'], {
+      stdio: 'inherit',
+    })
+  })
+
+  group.after(async () => {
+    await execa.node('ace', ['migration:rollback'], {
+      stdio: 'inherit',
+    })
+  })
+
   test('Ensure admin cannot be created by player', async () => {
     const token = await loggedUser({ user_type: 'player' })
 

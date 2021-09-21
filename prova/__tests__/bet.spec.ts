@@ -3,8 +3,21 @@ import { GameFactory } from 'Database/factories/GameFactory'
 import { loggedUser } from 'Database/factories/UserFactory'
 import request from 'Database/factories/request'
 import faker from 'faker'
+import execa from 'execa'
 
-test.group('Bets', async () => {
+test.group('Bets', async (group) => {
+  group.before(async () => {
+    await execa.node('ace', ['migration:run'], {
+      stdio: 'inherit',
+    })
+  })
+
+  group.after(async () => {
+    await execa.node('ace', ['migration:rollback'], {
+      stdio: 'inherit',
+    })
+  })
+
   const game = await GameFactory.create()
 
   const token = await loggedUser({ user_type: 'player' })
