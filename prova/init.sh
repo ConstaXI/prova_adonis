@@ -1,4 +1,4 @@
 #!/bin/sh
 yarn
 node ace migration:run
-yarn dev
+node -r @adonisjs/assembler/build/register japaFile.ts

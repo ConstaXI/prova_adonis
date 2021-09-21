@@ -13,10 +13,10 @@ export default class IsAdmin {
           return
         }
 
-        return response.badRequest('Você não é administrador >:(')
+        return response.status(403).send('Você não é administrador >:(')
       }
 
-      return response.badRequest('Você não está logado.')
+      return response.status(403).send('Você não está logado.')
     }
 
     await next()
