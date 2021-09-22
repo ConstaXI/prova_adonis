@@ -4,7 +4,7 @@ import request from 'Database/factories/request'
 import { GameFactory } from 'Database/factories/GameFactory'
 import execa from 'execa'
 
-test.group('Games', (group) => {
+test.group('Integration Tests - Games', (group) => {
   group.before(async () => {
     await execa.node('ace', ['migration:run'], {
       stdio: 'inherit',

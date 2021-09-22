@@ -5,7 +5,7 @@ import request from 'Database/factories/request'
 import faker from 'faker'
 import execa from 'execa'
 
-test.group('Bets', (group) => {
+test.group('Integration Tests - Bets', (group) => {
   group.before(async () => {
     await execa.node('ace', ['migration:run'], {
       stdio: 'inherit',

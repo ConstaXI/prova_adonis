@@ -21,6 +21,10 @@
     {
       "file": "./start/events",
       "environment": ["web"]
+    },
+    {
+      "file": "./start/validator",
+      "environment": ["web"]
     }
   ],
   "providers": [

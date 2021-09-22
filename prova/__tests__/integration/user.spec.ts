@@ -2,7 +2,7 @@ import test from 'japa'
 import request from 'Database/factories/request'
 import execa from 'execa'
 
-test.group('User', (group) => {
+test.group('Integration Tests - User', (group) => {
   group.before(async () => {
     await execa.node('ace', ['migration:run'], {
       stdio: 'inherit',

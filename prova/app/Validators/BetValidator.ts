@@ -26,7 +26,11 @@ export default class BetValidator {
   public schema = schema.create({
     game_id: schema.string({}, [rules.uuid({ version: '4' })]),
     numbers: schema
-      .array([rules.maxLength(this.max_number), rules.minLength(this.max_number)])
+      .array([
+        rules.maxLength(this.max_number),
+        rules.minLength(this.max_number),
+        rules.noRepeating(),
+      ])
       .members(schema.number([rules.range(1, this.numbers_range)])),
   })
 

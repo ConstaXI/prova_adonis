@@ -5,7 +5,7 @@ export const GameFactory = Factory.define(Game, ({ faker }) => {
   return {
     type: faker.internet.domainWord(),
     description: faker.lorem.paragraph(),
-    range: faker.datatype.number({ max: 60, min: 20 }),
+    range: faker.datatype.number({ max: 100, min: 25 }),
     price: faker.datatype.number({ max: 10, min: 2.5 }),
     max_number: faker.datatype.number({ max: 8, min: 6 }),
     color: '000000',

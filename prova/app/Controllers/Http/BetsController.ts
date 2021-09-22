@@ -3,6 +3,7 @@ import Bet from 'App/Models/Bet'
 import Game from 'App/Models/Game'
 import BetValidator from '../../Validators/BetValidator'
 import Event from '@ioc:Adonis/Core/Event'
+import CreateBetService from 'App/Services/Bet/CreateBetService'
 
 export default class BetsController {
   public async create({ auth, request, response }: HttpContextContract) {
@@ -12,11 +13,12 @@ export default class BetsController {
 
     const data = await request.validate(new BetValidator(game.range, game.max_number))
 
-    // todo: custom rule in BetValidator
-    if (data.numbers.length !== new Set(data.numbers).size)
-      return response.status(422).send('Existem números repetidos na sua aposta.')
-
-    const bet = await Bet.create({ ...data, price: game.price, user_id: auth.user!.id })
+    const bet = await CreateBetService.execute({
+      ...data,
+      game_id: gameId,
+      user_id: auth.user!.id,
+      price: game.price,
+    })
 
     await Event.emit('new:bet', {
       name: auth.user!.name,

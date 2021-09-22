@@ -3,7 +3,7 @@ import { loggedUser } from 'Database/factories/UserFactory'
 import request from 'Database/factories/request'
 import execa from 'execa'
 
-test.group('Authentication', (group) => {
+test.group('Integration Tests - Authentication', (group) => {
   group.before(async () => {
     await execa.node('ace', ['migration:run'], {
       stdio: 'inherit',
