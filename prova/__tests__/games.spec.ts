@@ -4,7 +4,7 @@ import request from 'Database/factories/request'
 import { GameFactory } from 'Database/factories/GameFactory'
 import execa from 'execa'
 
-test.group('Games', async (group) => {
+test.group('Games', (group) => {
   group.before(async () => {
     await execa.node('ace', ['migration:run'], {
       stdio: 'inherit',
@@ -17,9 +17,9 @@ test.group('Games', async (group) => {
     })
   })
 
-  const token = await loggedUser({ user_type: 'administrator' })
-
   test('Ensure game cannot be created by player', async () => {
+    const token = await loggedUser({ user_type: 'administrator' })
+
     request
       .post('/games')
       .set('Authorization', `Bearer ${token}`)
@@ -36,6 +36,8 @@ test.group('Games', async (group) => {
   })
 
   test('Ensure game can be created by an admin', async () => {
+    const token = await loggedUser({ user_type: 'administrator' })
+
     request
       .post('/games')
       .set('Authorization', `Bearer ${token}`)
@@ -52,6 +54,8 @@ test.group('Games', async (group) => {
   })
 
   test('Ensure game can be edited by an admin', async (assert) => {
+    const token = await loggedUser({ user_type: 'administrator' })
+
     const game = await GameFactory.create()
 
     const response = await request
@@ -66,6 +70,8 @@ test.group('Games', async (group) => {
   })
 
   test('Ensure game can be deleted by an admin', async () => {
+    const token = await loggedUser({ user_type: 'administrator' })
+
     const game = await GameFactory.create()
 
     await request.delete(`/games/${game.id}`).set('Authorization', `Bearer ${token}`).expect(200)

@@ -5,7 +5,7 @@ import request from 'Database/factories/request'
 import faker from 'faker'
 import execa from 'execa'
 
-test.group('Bets', async (group) => {
+test.group('Bets', (group) => {
   group.before(async () => {
     await execa.node('ace', ['migration:run'], {
       stdio: 'inherit',
@@ -18,11 +18,11 @@ test.group('Bets', async (group) => {
     })
   })
 
-  const game = await GameFactory.create()
-
-  const token = await loggedUser({ user_type: 'player' })
-
   test('Ensure bet can be created', async (assert) => {
+    const game = await GameFactory.create()
+
+    const token = await loggedUser({ user_type: 'player' })
+
     const numbers = Array.from({ length: game.max_number }, () =>
       faker.datatype.number({ max: game.range, min: 1 })
     )
@@ -40,6 +40,10 @@ test.group('Bets', async (group) => {
   })
 
   test('Ensure bet cannot be created with repeated numbers', async () => {
+    const game = await GameFactory.create()
+
+    const token = await loggedUser({ user_type: 'player' })
+
     const numbers = Array.from({ length: game.max_number }, () => 1)
 
     await request
@@ -53,6 +57,10 @@ test.group('Bets', async (group) => {
   })
 
   test('Ensure bet cannot be created with less numbers than max_number', async () => {
+    const game = await GameFactory.create()
+
+    const token = await loggedUser({ user_type: 'player' })
+
     const numbers = Array.from({ length: game.max_number - 1 }, () =>
       faker.datatype.number({ max: game.range, min: 1 })
     )
@@ -68,6 +76,10 @@ test.group('Bets', async (group) => {
   })
 
   test('Ensure bet cannot be created with more numbers than max_number', async () => {
+    const game = await GameFactory.create()
+
+    const token = await loggedUser({ user_type: 'player' })
+
     const numbers = Array.from({ length: game.max_number + 1 }, () =>
       faker.datatype.number({ max: game.range, min: 1 })
     )
