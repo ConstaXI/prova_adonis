@@ -69,6 +69,16 @@ test.group('Games', (group) => {
     assert.equal(response.body.type, 'Modificado')
   })
 
+  test('Ensure admin can view games with pagination', async (assert) => {
+    const token = await loggedUser({ user_type: 'administrator' })
+
+    await GameFactory.createMany(20)
+
+    const response = await request.get('/games').set('Authorization', `Bearer ${token}`).expect(200)
+
+    assert.lengthOf(response.body.data, 10)
+  })
+
   test('Ensure game can be deleted by an admin', async () => {
     const token = await loggedUser({ user_type: 'administrator' })
 
