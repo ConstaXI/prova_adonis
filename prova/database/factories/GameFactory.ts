@@ -3,7 +3,7 @@ import Game from 'App/Models/Game'
 
 export const GameFactory = Factory.define(Game, ({ faker }) => {
   return {
-    type: faker.internet.domainWord(),
+    type: faker.datatype.string(20),
     description: faker.lorem.paragraph(),
     range: faker.datatype.number({ max: 100, min: 25 }),
     price: faker.datatype.number({ max: 10, min: 2.5 }),
