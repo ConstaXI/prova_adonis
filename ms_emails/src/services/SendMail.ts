@@ -43,7 +43,7 @@ class sendMail {
             if (error) {
                 console.log(error)
             }
-            console.log('Successfully send email')
+            console.log(`Successfully sent email to ${emails}`)
         })
     }
 }

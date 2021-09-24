@@ -1,17 +1,15 @@
 import ProducerService from 'App/Services/Kafka/ProducerService'
-import User from 'App/Models/User'
+import Database from '@ioc:Adonis/Lucid/Database'
 
 class SendMail {
   public async execute() {
     // todo: I need to query only admins
-    const admins = await User.query().preload('role', (subQuery) => {
-      subQuery.where('user_type', 'administrator')
-    })
-
-    console.log(admins)
+    const admins = await Database.rawQuery(
+      `select users.*, roles.user_type from users, roles where users.id = roles.user_id and roles.user_type = 'administrator';`
+    )
 
     await Promise.all(
-      admins.map(async (admin) => {
+      admins.rows.map(async (admin) => {
         await ProducerService.execute('new-bet-handler', [{ value: admin.email }])
       })
     )
