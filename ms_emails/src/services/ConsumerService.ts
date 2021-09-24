@@ -1,5 +1,5 @@
 import {Kafka, Consumer} from 'kafkajs';
-import sendMail from '../services/Mail';
+import SendMail from "./SendMail";
 
 interface IConsumer {
     groupId: string
@@ -16,7 +16,7 @@ export default class ConsumerService {
     constructor({groupId}: IConsumer) {
         const kafka = new Kafka({
             brokers: ['localhost:9092'],
-        });
+        })
 
         this.consumer = kafka.consumer({groupId})
     }
@@ -26,7 +26,7 @@ export default class ConsumerService {
         await this.consumer.subscribe({topic, fromBeginning})
         await this.consumer.run({
             eachMessage: async ({message}) => {
-                await sendMail(String(message.value))
+                await SendMail.execute(String(message.value))
             },
         })
     }

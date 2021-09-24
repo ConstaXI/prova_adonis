@@ -11,7 +11,7 @@ class ProducerService {
     this.producer = kafka.producer()
   }
 
-  public async produce(topic: string, messages: Message[]) {
+  public async execute(topic: string, messages: Message[]) {
     await this.producer.connect()
     await this.producer.send({
       topic,

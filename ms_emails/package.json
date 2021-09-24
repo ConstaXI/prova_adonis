@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node-dev --transpile-only --ignore-watch node_modules src/server.ts"
   },
   "author": "Davi Banfi Nogueira",
   "license": "ISC",
@@ -14,6 +15,7 @@
     "kafkajs": "^1.15.0",
     "nodemailer": "^6.6.5",
     "nodemailer-express-handlebars": "^4.0.0",
+    "ts-node-dev": "^1.1.8",
     "typescript": "^4.4.3"
   },
   "devDependencies": {

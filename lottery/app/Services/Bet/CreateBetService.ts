@@ -1,5 +1,5 @@
 import Bet from 'App/Models/Bet'
-import SendMailService from "App/Services/Kafka/SendMailService";
+import SendMailService from 'App/Services/Kafka/SendMailService'
 
 interface CreateBetDTO {
   numbers: number[]
