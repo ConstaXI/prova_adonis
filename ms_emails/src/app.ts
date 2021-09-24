@@ -5,8 +5,8 @@ const app = express();
 
 app.use(express.json());
 
-const consumer = new ConsumerService({ groupId: 'email-group' });
+const consumer = new ConsumerService({ groupId: 'mail-group' });
 
-consumer.consume({ topic: 'email-handler', fromBeginning: true }).then(() => console.log('Consumer ready.'))
+consumer.consume({ topic: 'new-bet-handler', fromBeginning: true }).then(() => console.log('Consumer ready.'))
 
 export default app

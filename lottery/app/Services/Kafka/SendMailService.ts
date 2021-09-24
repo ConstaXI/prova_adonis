@@ -9,7 +9,7 @@ class SendMail {
 
     await Promise.all(
       admins.map(async (admin) => {
-        await ProducerService.produce('email-handler', [{ value: admin.email }])
+        await ProducerService.produce('new-bet-handler', [{ value: admin.email }])
       })
     )
   }
